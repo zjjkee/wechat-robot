@@ -1,7 +1,8 @@
 import { WechatyBuilder, ScanStatus, log } from 'wechaty'
 import qrTerminal from 'qrcode-terminal'
-import { defaultMessage, shardingMessage } from './sendMessage.js'
+import { defaultMessage} from './sendMessage.js'
 import { PuppetPadlocal } from "wechaty-puppet-padlocal"
+import { bbreminder } from './reminder.js'
 // 扫码
 function onScan(qrcode, status) {
   if (status === ScanStatus.Waiting || status === ScanStatus.Timeout) {
@@ -16,25 +17,15 @@ function onScan(qrcode, status) {
 
 // 登录
 function onLogin(user) {
-  console.log(`${user} has logged in`)
+  console.log(`用户${user} 已登录`)
   const date = new Date()
   console.log(`Current time:${date}`)
-  console.log(`Automatic robot chat mode has been activated`)
+  bbreminder(bot)
 }
 
 // 登出
 function onLogout(user) {
-  console.log(`${user} has logged out`)
-}
-
-// 收到好友请求
-async function onFriendShip(friendship) {
-  const frienddShipRe = /chatgpt|chat/
-  if (friendship.type() === 2) {
-    if (frienddShipRe.test(friendship.hello())) {
-      await friendship.accept()
-    }
-  }
+  console.log(`${user} 已登出`)
 }
 
 /**
@@ -54,12 +45,17 @@ async function onMessage(msg) {
 // const CHROME_BIN = process.env.CHROME_BIN ? { endpoint: process.env.CHROME_BIN } : {}
 export const bot = WechatyBuilder.build({
   name: 'WechatEveryDay',
-  // puppet: 'wechaty-puppet-wechat4u', // 如果有token，记得更换对应的puppet
-  puppet: new PuppetPadlocal({
-    token: 'puppet_padlocal_b9990ebda9e4417d9ba8d4c4725f1556',
-  }), // 如果 wechaty-puppet-wechat 存在问题，也可以尝试使用上面的 wechaty-puppet-wechat4u ，记得安装 wechaty-puppet-wechat4u
+  // puppet: 'wechaty-puppet-wechat', // 如果有token，记得更换对应的puppet
+  // puppet: new PuppetPadlocal({
+  //   token: 'puppet_padlocal_b9990ebda9e4417d9ba8d4c4725f1556',
+  // }), 
+  puppet: 'wechaty-puppet-service',
   puppetOptions: {
-    uos: true
+    tls: {
+      disable: true
+    },
+    uos: true,
+    token:'puppet_paimon_e3d9bc5d-6faa-4fce-90cd-e36e66cb8c1b'
   },
 })
 
@@ -72,8 +68,7 @@ bot.on('login', onLogin)
 bot.on('logout', onLogout)
 // 收到消息
 bot.on('message', onMessage)
-// 添加好友
-bot.on('friendship', onFriendShip)
+
 
 // 启动微信机器人
 bot
