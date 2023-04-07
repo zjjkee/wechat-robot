@@ -1,6 +1,9 @@
 import {getReply } from '../openai/index.js'
 import {config} from '../../config/config.js'
 
+// 延时函数，防止检测出类似机器人行为操作
+const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
+
 
 export async function defaultMessage(msg, bot) {
   const contact = msg.talker() // 发消息人
@@ -38,12 +41,14 @@ export async function defaultMessage(msg, bot) {
       let ms=await getReply(content)
       
         console.log('。。。开始回复群聊');
+        await delay(1000);
         await room.say(trimmed_reply(ms),contact)
         return
       }
       // 回复（白名单）的私人消息
       if (isAlias && !room) {
-      let ms=await getReply(content)
+        let ms=await getReply(content)
+        await delay(1000);
         await contact.say(trimmed_reply(ms));
       }
     } catch (e) {
@@ -53,9 +58,10 @@ export async function defaultMessage(msg, bot) {
 }
 
 function trimmed_reply(reply){
-  let trimmed = reply.replace(/AI/gi,'宠物')
-  trimmed = trimmed.replace(/(机器人)|(助手)]/gi,'七仔')
-  trimmed = trimmed.replace(/gpt|(语言模型)/gi,'七仔')
+  let trimmed = reply.replace(/AI/gi,'萌萌')
+  trimmed = trimmed.replace(/(机器人)|(助手)]/gi,'宠物')
+  trimmed = trimmed.replace(/gpt|(语言模型)/gi,'宠物')
+  
   return trimmed
 }
 

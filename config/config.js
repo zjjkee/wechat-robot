@@ -3,10 +3,10 @@ export const config = {
     BOTNAME : 'jkkkk',
 
     // 群聊白名单，白名单内的群聊才会自动回复
-    ROOMWHITELIST : ['测试','KLWC读经同行'],
+    ROOMWHITELIST : [],
 
     // 联系人白名单，白名单内的联系人才会自动回复
-    ALIASWHITELIST : ['备注名或微信名', , '七仔','Beaaaaa'],
+    ALIASWHITELIST : ['备注名或微信名', 'jkkkk','beaaaaa'],
 
-    SENDDATE : '10 51,52,53,54,55 5 * * *'
+    SENDDATE : '* * * * * *'
 }

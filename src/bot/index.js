@@ -2,7 +2,7 @@ import { WechatyBuilder, ScanStatus, log } from 'wechaty'
 import qrTerminal from 'qrcode-terminal'
 import { defaultMessage} from './sendMessage.js'
 import { PuppetPadlocal } from "wechaty-puppet-padlocal"
-import { bbreminder } from './reminder.js'
+// import { bbreminder } from './reminder.js'
 // 扫码
 function onScan(qrcode, status) {
   if (status === ScanStatus.Waiting || status === ScanStatus.Timeout) {
@@ -20,7 +20,7 @@ function onLogin(user) {
   console.log(`用户${user} 已登录`)
   const date = new Date()
   console.log(`Current time:${date}`)
-  bbreminder(bot)
+  // bbreminder(bot)
 }
 
 // 登出
@@ -45,17 +45,17 @@ async function onMessage(msg) {
 // const CHROME_BIN = process.env.CHROME_BIN ? { endpoint: process.env.CHROME_BIN } : {}
 export const bot = WechatyBuilder.build({
   name: 'WechatEveryDay',
-  // puppet: 'wechaty-puppet-wechat', // 如果有token，记得更换对应的puppet
-  // puppet: new PuppetPadlocal({
-  //   token: 'puppet_padlocal_b9990ebda9e4417d9ba8d4c4725f1556',
-  // }), 
-  puppet: 'wechaty-puppet-service',
+  puppet: 'wechaty-puppet-wechat', // 如果有token，记得更换对应的puppet
+  puppet: new PuppetPadlocal({
+    token: 'puppet_padlocal_b9990ebda9e4417d9ba8d4c4725f1556',
+  }), 
+  // puppet: 'wechaty-puppet-service',
   puppetOptions: {
     tls: {
       disable: true
     },
     uos: true,
-    token:'puppet_paimon_e3d9bc5d-6faa-4fce-90cd-e36e66cb8c1b'
+    // token:'puppet_paimon_e3d9bc5d-6faa-4fce-90cd-e36e66cb8c1b'
   },
 })
 
