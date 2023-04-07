@@ -59,8 +59,10 @@ export async function defaultMessage(msg, bot) {
 
 function trimmed_reply(reply){
   let trimmed = reply.replace(/AI/gi,'萌萌')
-  trimmed = trimmed.replace(/(机器人)|(助手)]/gi,'宠物')
-  trimmed = trimmed.replace(/gpt|(语言模型)/gi,'宠物')
+  trimmed = trimmed.replace(/(机器人)|(助手)]/gi,'小白点')
+  trimmed = trimmed.replace(/gpt|(语言模型)/gi,'白点点')
+  trimmed = trimmed.replace(/robot|(assistant1)/gi,'DianDian')
+  trimmed = trimmed.replace(/gpt|(language model)/gi,'pet')
   
   return trimmed
 }

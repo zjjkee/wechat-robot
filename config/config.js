@@ -6,7 +6,7 @@ export const config = {
     ROOMWHITELIST : [],
 
     // 联系人白名单，白名单内的联系人才会自动回复
-    ALIASWHITELIST : ['备注名或微信名', 'jkkkk','beaaaaa'],
+    ALIASWHITELIST : ['备注名或微信名', 'jkkkk','Beaaaaa'],
 
     SENDDATE : '* * * * * *'
 }
