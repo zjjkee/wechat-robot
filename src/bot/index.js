@@ -47,7 +47,7 @@ export const bot = WechatyBuilder.build({
   name: 'WechatEveryDay',
   puppet: 'wechaty-puppet-wechat', // 如果有token，记得更换对应的puppet
   puppet: new PuppetPadlocal({
-    token: 'puppet_padlocal_b9990ebda9e4417d9ba8d4c4725f1556',
+    token: 'puppet_padlocal_0c0c374efd1a44d99eb896e98da1e689',
   }), 
   // puppet: 'wechaty-puppet-service',
   puppetOptions: {
