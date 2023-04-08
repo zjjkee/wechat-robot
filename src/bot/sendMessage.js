@@ -21,10 +21,10 @@ export async function defaultMessage(msg, bot) {
   const name = await contact.name() // 微信名称
   const isText = msg.type() === bot.Message.Type.Text // 消息类型是否为文本
   const isRoom = Boolean(room) && content.includes(`@${config.BOTNAME}`) // 群聊，且包含botname
-  console.log('isRoom',isRoom);
+  // console.log('isRoom',isRoom);
   
   const isAlias = config.ALIASWHITELIST.includes(remarkName) || config.ALIASWHITELIST.includes(name) // 发消息的人是否在联系人白名单内
-  console.log('isAlias------',isAlias);
+  // console.log('isAlias------',isAlias);
   
   const isBotSelf = config.BOTNAME === remarkName || config.BOTNAME === name // 是否是机器人自己
   // console.log('isBotSelf----------',isBotSelf);

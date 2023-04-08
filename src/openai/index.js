@@ -26,11 +26,7 @@ export async function getReply(prompt) {
     messages: [{role: "user", content:prompt}],
     temperature: 0.9
   })
-  // console.log('response-------',response);
-  console.log('response.data',response.data);
-  console.log('response.data.choices[0].message-------------',response.data.choices[0].message);
-  
-  
+  // console.log('response-------',response);  
   // const reply = markdownToText(response.data.choices[0].message)
   const reply = response.data.choices[0].message.content
   console.log('🚀🚀🚀 bot-reply------', reply)
