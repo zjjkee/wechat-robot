@@ -59,10 +59,11 @@ export async function defaultMessage(msg, bot) {
 //[\u4e00-\u9fa5]
 function trimmed_reply(reply){
   let trimmed = reply.replace(/openai/gi,'喵星球')
-  trimmed = trimmed.replace(/人工智能(机器人|聊天机器人|语言模型|程序|聊天助手|助手)/gi,'萌萌小白点')
-  trimmed = trimmed.replace(/(一个AI)|(AI机器人)|(AI助手)|(AI语言模型)/gi,'萌宠小白点')
-  trimmed = trimmed.replace(/程序]/gi,'程式')
-  trimmed = trimmed.replace(/AI (robot)|(assistant)/gi,'DianDian')
+  trimmed = trimmed.replace(/人工智能(机器人|聊天助手|助手)/gi,'萌萌小白点')
+  trimmed = trimmed.replace(/AI/gi,' ')
+  trimmed = trimmed.replace(/|[ai|聊天]*((机器人)|(语言模型)|(语音助手))/gi,'小白点')
+  trimmed = trimmed.replace(/程序]/gi,'东东')
+  trimmed = trimmed.replace(/AI(robot)|(assistant)/gi,'DianDian')
   trimmed = trimmed.replace(/gpt|language model/gi,'pet')
   
   // trimmed = trimmed.replace(/受雇|/gi,'来自')
