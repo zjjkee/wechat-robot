@@ -24,12 +24,14 @@ mongoose
     console.log(err);
   });
 
+const delay = (m) => new Promise((resolve) => setTimeout(resolve, m));
+
 export async function bbreminder(bot) {
     console.log(`读经提醒任务启动中`);
     let reminderfind = await reminder_model.findOne({day:daysum()})//查找当天的提醒经文
     console.log('reminderfind:---------',reminderfind)
 
-    let findroom = await bot.Room.find({ topic: '哈哈哈' })//要发送的群名
+    let findroom = await bot.Room.find({ topic: '幸福小筑' })//要发送的群名
     console.log('findroom:-----',findroom);
 
     // let members = await findroom.memberAll();
@@ -38,11 +40,15 @@ export async function bbreminder(bot) {
         console.log('已启动,提醒日期已设定！');
         try {
             if(reminderfind.from==0){
+                console.log('00000')
                 await findroom.say('今天休息一天~~~');
             } else if(reminderfind.from==1){
-                await findroom.say(intro(reminderfind.volume));
+                console.log('111111')
+                await findroom.say(await intro(reminderfind));
+                await delay(7000);
                 await findroom.say(todayverse(reminderfind),jkkkk); // 发送读经提醒,@成员
             }else{
+                console.log('22222')
                 await findroom.say(todayverse(reminderfind),jkkkk); 
             }
           } catch (e) {
@@ -77,11 +83,12 @@ function todayverse(data){
   for(let i = data.from;i<=data.to;i++){
       tdverse+=data.volume+i+'\n';
   }
-  let rep =`读经打卡${data.day}天， ${gt.format('YYYY-MM-DD')}\n-----------------------\n今日经文:\n${tdverse}-----------------------`
+  let rep =`\n读经打卡${data.day}天， ${gt.format('YYYY-MM-DD')}\n-----------------------\n今日经文:\n${tdverse}-----------------------`
   return rep
 }
 
 async function intro(v){
-    let info = '请介绍一下'+v.keyword+'的写作背景和简介'
-    return getReply(info)
+    let info = '请介绍一下'+v.volume+'的写作背景和简介'
+    info = await getReply(info)
+    return info
 }

@@ -2,10 +2,10 @@ import {getReply } from '../openai/index.js'
 import {config} from '../../config/config.js'
 
 // 延时函数，防止检测出类似机器人行为操作
-const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
+const delay = (m) => new Promise((resolve) => setTimeout(resolve, m));
 
 
-export async function defaultMessage(msg, bot) {
+export async function defaultMessage(msg, bot,selfname) {
   const contact = msg.talker() // 发消息人
   // console.log('contact------',contact);
   
@@ -25,9 +25,8 @@ export async function defaultMessage(msg, bot) {
   
   const isAlias = config.ALIASWHITELIST.includes(remarkName) || config.ALIASWHITELIST.includes(name) // 发消息的人是否在联系人白名单内
   // console.log('isAlias------',isAlias);
-  
-  const isBotSelf = config.BOTNAME === remarkName || config.BOTNAME === name // 是否是机器人自己
-  // console.log('isBotSelf----------',isBotSelf);
+
+  const isBotSelf = selfname ===  remarkName || selfname === name
   
   // TODO 你们可以根据自己的需求修改这里的逻辑
   if (isText && !isBotSelf) {
@@ -41,7 +40,7 @@ export async function defaultMessage(msg, bot) {
       let ms=await getReply(content)
       
         console.log('。。。开始回复群聊');
-        await delay(1000);
+        await delay(2000);
         await room.say(trimmed_reply(ms),contact)
         return
       }
@@ -61,7 +60,8 @@ function trimmed_reply(reply){
   let trimmed = reply.replace(/openai/gi,'喵星球')
   trimmed = trimmed.replace(/人工智能(机器人|聊天助手|助手)/gi,'萌萌小白点')
   trimmed = trimmed.replace(/AI/gi,' ')
-  trimmed = trimmed.replace(/|[ai|聊天]*((机器人)|(语言模型)|(语音助手))/gi,'小白点')
+  trimmed = trimmed.replace(/[ai|人工智能]*(聊天助手|机器人|语言模型|语音助手)/gi,'小白点')
+
   trimmed = trimmed.replace(/程序]/gi,'东东')
   trimmed = trimmed.replace(/AI(robot)|(assistant)/gi,'DianDian')
   trimmed = trimmed.replace(/gpt|language model/gi,'pet')

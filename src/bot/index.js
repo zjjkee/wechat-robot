@@ -15,9 +15,12 @@ function onScan(qrcode, status) {
   }
 }
 
+var selfname
+
 // 登录
 function onLogin(user) {
   console.log(`用户${user} 已登录`)
+  selfname = user.name()
   const date = new Date()
   console.log(`Current time:${date}`)
   bbreminder(bot)
@@ -36,7 +39,7 @@ function onLogout(user) {
  */
 async function onMessage(msg) {
   // 默认消息回复
-  await defaultMessage(msg, bot)
+  await defaultMessage(msg, bot,selfname)
   // 消息分片
   // await shardingMessage(msg,bot)
 }
@@ -45,9 +48,8 @@ async function onMessage(msg) {
 // const CHROME_BIN = process.env.CHROME_BIN ? { endpoint: process.env.CHROME_BIN } : {}
 export const bot = WechatyBuilder.build({
   name: 'WechatEveryDay',
-  puppet: 'wechaty-puppet-wechat', // 如果有token，记得更换对应的puppet
   puppet: new PuppetPadlocal({
-    token: 'puppet_padlocal_9929bade9f5c4c8faa08b1c9fd58c471',
+    token: process.env.PUPPET_TOKEN,
   }), 
   // puppet: 'wechaty-puppet-service',
   puppetOptions: {
