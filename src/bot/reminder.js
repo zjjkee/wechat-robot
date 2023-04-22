@@ -29,7 +29,7 @@ const delay = (m) => new Promise((resolve) => setTimeout(resolve, m));
 export async function bbreminder(bot) {
     console.log(`读经提醒任务启动中`);
 
-    let findroom = await bot.Room.find({ topic: '幸福小筑' })//要发送的群名
+    let findroom = await bot.Room.find({ topic: 'KLWC读经同行' })//要发送的群名
     console.log('findroom:-----',findroom);
 
     // let members = await findroom.memberAll();
