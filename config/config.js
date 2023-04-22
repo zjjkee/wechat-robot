@@ -4,7 +4,9 @@ export const config = {
     ROOMWHITELIST : ['少管所经验交流中心','哈哈哈','KLWC读经同行'],
 
     // 联系人白名单，白名单内的联系人才会自动回复
-    ALIASWHITELIST : ['备注名或微信名', 'jkkkk','Beaaaaa','柯仔嘚'],
+    ALIASWHITELIST : ['备注名或微信名', 'jkkkk','群律姐姐'],
 
-    SENDDATE : '0 19 7 * * *'
+    SENDDATE1 : '0 0 22 * * *',
+
+    SENDDATE2 :'0 0 20 * * *'
 }

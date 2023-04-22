@@ -28,28 +28,38 @@ const delay = (m) => new Promise((resolve) => setTimeout(resolve, m));
 
 export async function bbreminder(bot) {
     console.log(`读经提醒任务启动中`);
-    let reminderfind = await reminder_model.findOne({day:daysum()})//查找当天的提醒经文
-    console.log('reminderfind:---------',reminderfind)
 
     let findroom = await bot.Room.find({ topic: '幸福小筑' })//要发送的群名
     console.log('findroom:-----',findroom);
 
     // let members = await findroom.memberAll();
-    let jkkkk = await bot.Contact.find({name: 'jkkkk'})
-    schedule.scheduleJob({tz:'America/Chicago',rule:config.SENDDATE},async ()=>{
-        console.log('已启动,提醒日期已设定！');
+    let groupowner = await bot.Contact.find({name: 'jkkkk'})//查找群主
+    schedule.scheduleJob({tz:'America/Chicago',rule:config.SENDDATE1},async ()=>{
+        console.log('读经提醒已启动,提醒日期已设定！');
+        let reminderfind = await reminder_model.findOne({day:daysum()})//查找明天要读的提醒经文
         try {
             if(reminderfind.from==0){
-                console.log('00000')
-                await findroom.say('今天休息一天~~~');
+                await findroom.say('明天休息一天~~~');
             } else if(reminderfind.from==1){
-                console.log('111111')
                 await findroom.say(await intro(reminderfind));
                 await delay(7000);
-                await findroom.say(todayverse(reminderfind),jkkkk); // 发送读经提醒,@成员
+                await findroom.say(todayverse(reminderfind,'\n明日预告：\n'),groupowner); // 发送读经提醒,@成员
             }else{
-                console.log('22222')
-                await findroom.say(todayverse(reminderfind),jkkkk); 
+                await findroom.say(todayverse(reminderfind,'\n明日预告：\n'),groupowner); 
+            }
+          } catch (e) {
+            console.log(e);
+            
+        }
+    })
+    schedule.scheduleJob({tz:'America/Chicago',rule:config.SENDDATE2},async ()=>{ //第二次提醒
+        console.log('第二次提醒,提醒日期已设定！');
+        let reminderfind = await reminder_model.findOne({day:(daysum()-1)})//查找当天的应读经文
+        try {
+            if(reminderfind.from==0){
+                await findroom.say('今天休息一天~~~愿bs们在主里重新得力！');
+            } else{
+                await findroom.say(todayverse(reminderfind,'\n今日提醒：\n'),groupowner); 
             }
           } catch (e) {
             console.log(e);
@@ -57,8 +67,6 @@ export async function bbreminder(bot) {
         }
     })
   }
-
-
 
 function daysum(){
   let y = gt.get('year')
@@ -78,14 +86,16 @@ function daysum(){
   return sum
 }
 
-function todayverse(data){
-  let tdverse = '';
-  for(let i = data.from;i<=data.to;i++){
-      tdverse+=data.volume+i+'\n';
+
+
+function todayverse(data,head){
+    let tdverse = '';
+    for(let i = data.from;i<=data.to;i++){
+        tdverse+=data.volume+i+'\n';
+    }
+    let rep =head+`读经打卡${data.day}天 ${gt.format('YYYY-MM-DD')}\n-----------------------\n应读经文:\n${tdverse}-----------------------`
+    return rep
   }
-  let rep =`\n读经打卡${data.day}天， ${gt.format('YYYY-MM-DD')}\n-----------------------\n今日经文:\n${tdverse}-----------------------`
-  return rep
-}
 
 async function intro(v){
     let info = '请介绍一下'+v.volume+'的写作背景和简介'

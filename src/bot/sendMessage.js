@@ -34,11 +34,11 @@ export async function defaultMessage(msg, bot,selfname) {
     try {
 
       if (content.length < 5) return 
+
       
       //回复消息到被@的群里
-      if (isRoom) {;
-      let ms=await getReply(content)
-      
+      if (isRoom) {
+        let ms=await getReply(content);
         console.log('。。。开始回复群聊');
         await delay(2000);
         await room.say(trimmed_reply(ms),contact)
@@ -48,13 +48,40 @@ export async function defaultMessage(msg, bot,selfname) {
       if (isAlias && !room) {
         let ms=await getReply(content)
         await delay(1000);
+        console.log('开始回复私人消息')
         await contact.say(trimmed_reply(ms));
       }
+       //回复（特定昵称出发）的私人消息
+       let reg = RegExp(/^小白点[,|| ||，]/);
+      if(reg.test(content)){
+        let a = Math.round(Math.random()*10000); 
+        if(a<1000){
+            //不回答
+        }else if(a>=8500&&a<9000){
+          await room.say('你问的问题太臭屁，本点点不想回答',contact)
+        }else if(a>=9000&&a<9300){
+          await room.say('我题目我不会呀，要不咱百度一下？',contact)            
+        }else if(a>=9300&&a<9600){
+            await room.say('你咋不上天呢',contact)
+        }else if(a>=9600){
+          await room.say('我困了，早点休息，晚安',contact)            
+        }else{
+          let ms=await getReply(content.replace(reg,''))
+          await delay(a);
+          await room.say(trimmed_reply(ms),contact)
+        }
+      }
+
+
     } catch (e) {
       console.error(e)
     }
   }
 }
+     
+
+
+
 //[\u4e00-\u9fa5]
 function trimmed_reply(reply){
   let trimmed = reply.replace(/openai/gi,'喵星球')
